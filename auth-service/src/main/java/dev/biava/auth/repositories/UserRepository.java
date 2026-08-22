@@ -1,4 +1,4 @@
-package dev.biava.auth.repository;
+package dev.biava.auth.repositories;
 
 import java.util.UUID;
 
