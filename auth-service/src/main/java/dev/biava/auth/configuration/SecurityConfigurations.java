@@ -2,6 +2,7 @@ package dev.biava.auth.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -22,6 +23,11 @@ public class SecurityConfigurations {
                 )
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/h2-console/**").permitAll()
+                    .anyRequest().authenticated()
+                )
+                .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(HttpMethod.POST, "/onlyAdminRoleExample").hasRole("ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/onlyUserRoleExample").hasRole("USER")
                     .anyRequest().authenticated()
                 )
                 .build();
