@@ -9,5 +9,5 @@ import dev.biava.auth.domain.User.User;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
     
-    public UserDetails getByEmail(String email);
+    public UserDetails findByEmail(String email);
 }
