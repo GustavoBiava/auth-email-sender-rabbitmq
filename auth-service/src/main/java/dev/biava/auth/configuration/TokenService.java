@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import dev.biava.auth.domain.User.User;
 
@@ -18,10 +19,11 @@ public class TokenService {
 
     @Value("${api.security.token.secret}")
     private static final String secret;
+
+    private static final Algorithm algorithm = Algorithm.HMAC256(secret);
     
     public String generateToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                             .withAudience("auth-api")
                             .withSubject(user.getEmail())
@@ -32,6 +34,19 @@ public class TokenService {
         }
         catch (JWTCreationException e) {
             throw new RuntimeException("Error while generating token", e);
+        }
+    }
+
+    public String validateToken(String token) {
+        try {
+            return JWT.require(algorithm)
+                        .withIssuer("auth-api")
+                        .build()
+                        .verify(token)
+                        .getSubject();
+        }
+        catch (JWTVerificationException e) {
+            throw new RuntimeException("Error while validating token", e);
         }
     }
 
