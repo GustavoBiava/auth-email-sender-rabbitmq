@@ -22,25 +22,22 @@ public class SecurityConfigurations {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(headers -> headers
-                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                )
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/h2-console/**").permitAll()
-                    .anyRequest().authenticated()
-                )
                 .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                     .requestMatchers(HttpMethod.POST, "/onlyAdminRoleExample").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.POST, "/onlyUserRoleExample").hasRole("USER")
+                    .requestMatchers("/h2-console/**").permitAll()
                     .anyRequest().authenticated()
+                )
+                .headers(headers -> headers
+                    .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
