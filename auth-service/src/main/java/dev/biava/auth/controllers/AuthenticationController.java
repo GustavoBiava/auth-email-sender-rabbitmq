@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.biava.auth.configuration.TokenService;
+import dev.biava.auth.domain.User.LoginResponseDTO;
 import dev.biava.auth.domain.User.User;
 import dev.biava.auth.domain.User.UserLoginDTO;
 import dev.biava.auth.domain.User.UserRegisterDTO;
@@ -26,12 +28,17 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private TokenService tokenService;
+    
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated UserLoginDTO userLoginDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(userLoginDTO.email(), userLoginDTO.password());
         var auth = authenticationManager.authenticate(usernamePassword);
         
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     
     @PostMapping("/register")
