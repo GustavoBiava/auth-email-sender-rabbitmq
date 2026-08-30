@@ -18,12 +18,11 @@ import dev.biava.auth.domain.User.User;
 public class TokenService {
 
     @Value("${api.security.token.secret}")
-    private static final String secret;
-
-    private static final Algorithm algorithm = Algorithm.HMAC256(secret);
+    private String secret;
     
     public String generateToken(User user) {
         try {
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
             String token = JWT.create()
                             .withAudience("auth-api")
                             .withSubject(user.getEmail())
@@ -39,6 +38,7 @@ public class TokenService {
 
     public String validateToken(String token) {
         try {
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
             return JWT.require(algorithm)
                         .withIssuer("auth-api")
                         .build()
