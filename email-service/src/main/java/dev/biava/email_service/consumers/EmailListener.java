@@ -22,7 +22,7 @@ public class EmailListener {
             System.out.println("Email consumido...");
         }
         catch (Exception e) {
-            System.out.println("Erro ao consumir e-mail: " + e.getMessage());
+            throw new RuntimeException("Erro ao consumir e-mail: " + e.getMessage());
         }
         finally {
             System.out.println("Finalizando consumo de e-mail...");
