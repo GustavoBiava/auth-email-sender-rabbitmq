@@ -29,4 +29,9 @@ public class EmailListener {
             System.out.println();
         }
     }
+
+    @RabbitListener(queues = "${app.rabbitmq.queue.email-dlq}")
+    public void listenDLQ(EmailDTO emailDTO) {
+        System.out.println("Menssagem caiu no DLQ...");
+    }
 }
