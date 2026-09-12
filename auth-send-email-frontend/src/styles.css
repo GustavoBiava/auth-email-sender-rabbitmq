@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+
+:root {
+    --main-color: rgb(0, 87, 187);
+
+    --background-color: #121214;
+    --second-background-color: #1d1d20;
+
+    font-family: "Montserrat", sans-serif;
+    color: white;
+}

@@ -1,0 +1,15 @@
+<div class="w-dvw h-dvh flex justify-center items-center bg-[var(--background-color)]">
+    <form [formGroup]="profileForm" class="bg-[var(--second-background-color)] max-w-96 mx-4 p-10 text-left text-sm rounded-2xl">
+        <h2 class="text-4xl font-semibold mb-6 text-center">Autenticação</h2>
+        
+        <label for="email">Email</label>
+        <input id="email" class="w-full border mb-5 border-gray-500/30 outline-none rounded py-2.5 px-4" type="email" placeholder="exemplo@email.com" formControlName="email">
+
+        <label for="email">Senha</label>
+        <input id="email" class="w-full border mb-5 border-gray-500/30 outline-none rounded py-2.5 px-4" type="text" placeholder="******" formControlName="password">
+
+        <button type="button" [disabled]="!profileForm.valid" class="w-full font-bold my-3 bg-[var(--main-color)] cursor-pointer py-2.5 rounded text-white">ENTRAR</button>
+
+        <p class="text-center mt-4">Não possui conta? <span class="text-blue-500 underline">Registre-se agora!</span></p>
+    </form>
+</div>
